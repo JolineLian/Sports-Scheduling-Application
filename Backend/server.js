@@ -18,11 +18,11 @@ app.use(express.json());
 // }))
 
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://sports-scheduling-application-1.onrender.com'], // Replace with your frontend's URL
-    methods: 'GET,POST,PUT,DELETE', // Allow the necessary HTTP methods
+    origin: '*',  // Allow all origins for testing (not recommended for production)
+    methods: 'GET,POST,PUT,DELETE',
     credentials: true,
-    allowedHeaders: 'Content-Type,Authorization' // Allow necessary headers
-}));
+    allowedHeaders: 'Content-Type,Authorization'
+  }));
 
 app.use('/api/leagues', leagueRoutes);
 app.use('/api/teams', teamRoutes);
