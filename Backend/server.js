@@ -18,7 +18,7 @@ app.use(express.json());
 // }))
 
 app.use(cors({
-    origin: 'http://localhost:5173', // Replace with your frontend's URL
+    origin: 'https://sports-scheduling-application-1.onrender.com', // Replace with your frontend's URL
     methods: 'GET,POST,PUT,DELETE', // Allow the necessary HTTP methods
     credentials: true,
     allowedHeaders: 'Content-Type,Authorization' // Allow necessary headers
