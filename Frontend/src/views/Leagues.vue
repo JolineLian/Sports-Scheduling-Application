@@ -12,7 +12,7 @@
     const leagues = ref([]);
 
     onMounted( async () => {
-        const leagueData = await axios.get('http://localhost:8000/api/leagues');
+        const leagueData = await axios.get('https://sports-scheduling-application.onrender.com/api/leagues');
        
         leagues.value = leagueData.data.leagues;
         console.log(leagues.value[0].name)

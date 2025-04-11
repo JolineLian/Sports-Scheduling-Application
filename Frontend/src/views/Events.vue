@@ -199,7 +199,7 @@
 
         if (selectedLeague.value.length > 0) {
             queryString.league = selectedLeague.value.join(',');
-            const res = await axios.get(`http://localhost:8000/api/teams/leagues`, { params: queryString});
+            const res = await axios.get(`https://sports-scheduling-application.onrender.com/api/teams/leagues`, { params: queryString});
             teams.value = res.data.teams;
             opps.value = res.data.teams;
         }
@@ -229,7 +229,7 @@
         });
 
         try {
-            const res = await axios.post("http://localhost:8000/api/events", {
+            const res = await axios.post("https://sports-scheduling-application.onrender.com/api/events", {
                 event_type: event_type.value,
                 date: date.value,
                 play: play.value,
@@ -278,7 +278,7 @@
             queryString.endDate = endDate._value;
         }
 
-        const res = await axios.get(`http://localhost:8000/api/events/filter`, { params: queryString});
+        const res = await axios.get(`https://sports-scheduling-application.onrender.com/api/events/filter`, { params: queryString});
 
         events.value = res.data.events;
     }   
@@ -288,10 +288,10 @@
     }
 
     onMounted( async () => {
-        const eventData = await axios.get('http://localhost:8000/api/events');
-        const leagueData = await axios.get('http://localhost:8000/api/leagues');
-        const teamsData = await axios.get('http://localhost:8000/api/teams');
-        const oppsData = await axios.get('http://localhost:8000/api/teams');
+        const eventData = await axios.get('https://sports-scheduling-application.onrender.com/api/events');
+        const leagueData = await axios.get('https://sports-scheduling-application.onrender.com/api/leagues');
+        const teamsData = await axios.get('https://sports-scheduling-application.onrender.com/api/teams');
+        const oppsData = await axios.get('https://sports-scheduling-application.onrender.com/api/teams');
        
         leagues.value = leagueData.data.leagues;
         teams.value = teamsData.data.teams;

@@ -42,7 +42,7 @@
   
   const loginUser = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/api/login', {
+      const response = await axios.post('https://sports-scheduling-application.onrender.com/api/login', {
         username: username.value,
         password: password.value
       });
