@@ -37,27 +37,20 @@ const router = createRouter({
           path: 'events',
           name: 'Events',
           component: Events,
-          beforeEnter: (to, from, next) => {
-            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            if (!isLoggedIn) {
-              next({ name: 'Login' });
-            } else {
-              next();
-            }
-          },
+          meta: { requiresAuth: true}
         },
       ],
-    },
-    
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (About.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('../views/AboutView.vue'),
-    // },
+    }
   ],
+})
+
+router.beforeEach((to, next) => {
+  const token = localStorage.getItem('token');
+  if (to.meta.requiresAuth && !token) {
+    next('/');
+  } else {
+    next();
+  }
 })
 
 export default router

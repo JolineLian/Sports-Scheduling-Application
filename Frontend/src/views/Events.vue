@@ -1,5 +1,5 @@
 <template>
-    <Navbar class="nacbar">
+    <Navbar class="navbar">
     </Navbar>
     <div class="Search">
         <div>

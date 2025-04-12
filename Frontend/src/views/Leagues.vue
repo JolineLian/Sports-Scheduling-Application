@@ -1,4 +1,6 @@
 <template>
+    <Navbar class="navbar">
+    </Navbar>
     <div>
         <Table :leagues="leagues"/>
     </div>
