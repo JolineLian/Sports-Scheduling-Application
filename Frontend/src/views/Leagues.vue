@@ -1,6 +1,4 @@
 <template>
-    <Navbar class="navbar">
-    </Navbar>
     <div>
         <Table :leagues="leagues"/>
     </div>
@@ -11,12 +9,12 @@
     import Table from '../components/Table.vue';
     import axios from 'axios';
 
+
     const leagues = ref([]);
 
     onMounted( async () => {
-        const leagueData = await axios.get('https://sports-scheduling-application.onrender.com/api/leagues');
+        const leagueData = await axios.get('http://localhost:8000/api/leagues');
        
         leagues.value = leagueData.data.leagues;
-        console.log(leagues.value[0].name)
     })
 </script>

@@ -1,19 +1,38 @@
 <template>
     <div>
-      <h1>Dashboard</h1>
-      <p>Welcome to the Dashboard!</p>
+      <h2>Dashboard</h2>
+      <p>{{ secureMessage }}</p>
+      <p v-if="userId">User ID: {{ userId }}</p>
+      <!-- <button @click="logout">Logout</button> -->
+      <router-view />
     </div>
   </template>
   
   <script setup>
+  import { ref, onMounted } from 'vue';
+  import axios from 'axios';
   import { useRouter } from 'vue-router';
-  import { onMounted } from 'vue';
   
   const router = useRouter();
+  const secureMessage = ref('');
+  const userId = ref('');
   
-  onMounted(() => {
-    if (!localStorage.getItem('token')) {
-      router.push('/login');  // Redirect to login if no token is found
+  const logout = () => {
+    localStorage.removeItem('token');
+    router.push('/');
+  };
+  
+  onMounted(async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.get('/api/dashboard-data', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      secureMessage.value = response.data.message;
+      userId.value = response.data.userId;
+    } catch (err) {
+      alert('Session expired or token invalid.');
+      logout();
     }
   });
   </script>

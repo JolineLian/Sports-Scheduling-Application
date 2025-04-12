@@ -1,30 +1,29 @@
 <template>
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <a class="navbar-item">
-          <svg width="640" height="160" viewBox="0 0 640 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Your SVG code here -->
-          </svg>
-        </a>
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
+        <a class="navbar-item brand-title" href="#">
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-calendar-alt"></i>
+          </span>
+          <span><strong>Sports</strong><span class="schedule-text">Schedule</span></span>
+        </span>
+      </a>
       </div>
   
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-          <Router-link class="navbar-item" to="/">
-            Events
-          </Router-link>
-          <Router-link class="navbar-item" to="/leagues">
-            Leagues
-          </Router-link>
-          <Router-link class="navbar-item">
-            Teams
-          </Router-link>
+            <Router-link v-if="isLoggedIn" class="navbar-item" to="/dashboard/events">
+  Events
+</Router-link>
+
+<!-- Only show these if the user is an admin -->
+<Router-link v-if="isLoggedIn && isAdmin" class="navbar-item" to="/dashboard/leagues">
+  Leagues
+</Router-link>
+<Router-link v-if="isLoggedIn && isAdmin" class="navbar-item" to="/dashboard/teams">
+  Teams
+</Router-link>
         </div>
   
         <div class="navbar-end">
@@ -44,22 +43,29 @@
   </template>
   
   <script setup>
-  import { ref, computed } from 'vue';
-  import { useRouter } from 'vue-router';
-  
-  // Check if the user is logged in by checking if the token exists in localStorage
-  const isLoggedIn = computed(() => {
-    return localStorage.getItem('token') !== null;
-  });
-  
-  const router = useRouter();
-  
-  // Logout method
-  const logout = () => {
-    // Remove the token from localStorage
-    localStorage.removeItem('token');
-    // Redirect to the events page
-    router.push('/');
-  };
-  </script>
+import { useRouter } from 'vue-router';
+import { useAuth } from '@/composables/useAuth.js';
+
+const router = useRouter();
+const { isLoggedIn, isAdmin, setToken } = useAuth();
+
+const logout = () => {
+  setToken(null);
+  router.push('/');
+};
+</script>
+
+<style scoped>
+.brand-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.schedule-text {
+  font-weight: 300;
+  margin-left: 2px;
+  color: #f0f0f0;
+}
+</style>
+
   

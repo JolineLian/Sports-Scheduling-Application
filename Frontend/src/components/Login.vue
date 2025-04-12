@@ -1,5 +1,54 @@
 <template>
     <div>
+      <h2>Login</h2>
+      <form @submit.prevent="login">
+        <input v-model="username" placeholder="Username" required />
+        <input v-model="password" type="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+      <button
+      @click="guestLogin">Continue as Guest</button>
+    </div>
+  </template>
+  
+  <script setup>
+  import { ref } from 'vue';
+  import axios from 'axios';
+  import { useRouter } from 'vue-router';
+  import { useAuth } from '@/composables/useAuth.js';
+  
+  const { setToken } = useAuth();
+  const router = useRouter();
+  
+  const username = ref('');
+  const password = ref('');
+  
+  const login = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/login', {
+        username: username.value,
+        password: password.value
+      });
+      setToken(response.data.token);
+      router.push('/dashboard');
+    } catch {
+      alert('Invalid login');
+    }
+  };
+  
+  const guestLogin = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/guest-login');
+      setToken(response.data.token);
+      router.push('/dashboard/events');
+    } catch (error) {
+      console.error('Guest login failed:', error);
+    }
+  };
+  </script>
+  
+<!-- <template>
+    <div>
       <h1>Login</h1>
       <form @submit.prevent="loginUser">
         <div>
@@ -42,7 +91,7 @@
   
   const loginUser = async () => {
     try {
-      const response = await axios.post('https://sports-scheduling-application.onrender.com/api/login', {
+      const response = await axios.post('http://localhost:8000/api/login', {
         username: username.value,
         password: password.value
       });
@@ -56,5 +105,5 @@
       errorMessage.value = 'Invalid username or password';
     }
   };
-  </script>
+  </script> -->
   
