@@ -1,7 +1,5 @@
 <template>
     <div>
-      <h2>Dashboard</h2>
-      <p>{{ secureMessage }}</p>
       <p v-if="userId">User ID: {{ userId }}</p>
       <!-- <button @click="logout">Logout</button> -->
       <router-view />

@@ -90,7 +90,6 @@
                 </div>
 
                 <div>
-                    <!-- <button class="button is-primary" @click="addEvent">+</button> -->
                     <button class="button is-primary" @click="() => togglePopup('buttonTrigger')">+</button>
                     <Popup v-if="popupTriggers.buttonTrigger" 
                     :togglePopup="() => togglePopup('buttonTrigger')">
@@ -119,7 +118,7 @@
                             </select>
 
                             <h3>Enter Division</h3>
-                            <input v-model="division" placeholder="Division"/>
+                            <input v-model="division" placeholder="Eg. Division 1"/>
 
                             <h3>Enter Team</h3>
                             <select v-model="team">
@@ -127,8 +126,8 @@
                                 <option v-for="(team, index) in teams" :key="index" :value="team.name">{{ team.name }}</option>
                             </select>
 
-                            <h3>Enter Opponent</h3>
-                            <select v-model="opponent">
+                            <h3 v-if="event_type !== 'practice'">Enter Opponent</h3>
+                            <select v-if="event_type !== 'practice'" v-model="opponent">
                                 <option value="" disabled>Select Opponent</option>
                                 <option v-for="(opp, index) in opps" :key="index" :value="opp.name">{{ opp.name }}</option>
                             </select>
@@ -138,20 +137,23 @@
                         </form>
                     </Popup>
                 </div>
-
-
             </div>
         </div>
     </div>
 
     <div>
-        <Table :events="events" />
+        <Table  
+        :events="events" 
+        :leagues="leagues"
+        :teams="teams"
+        :opps="opps"
+        :deleteEvent="deleteEvent"/>
     </div>
 </template>
 
 <script setup>
     import { ref , onMounted } from 'vue';
-    import Table from '../components/Table.vue';
+    import Table from '../components/EventTable.vue';
     import axios from 'axios';
     import Popup from '../components/Popup.vue'
 
@@ -209,22 +211,12 @@
             return;
         }
 
-        // Get the league_id from the selected league object
-        league_id.value = league.value._id;
+        if (event_type.value !== 'practice' && !opponent.value) {
+            alert('Please select an opponent.');
+            return;
+        }
 
-        // Log the data being sent
-        console.log({
-            type: event_type.value,
-            date: date.value,
-            play: play.value,
-            back: back.value,
-            address: address.value,
-            league: league.value.name,
-            league_id: league_id.value,
-            division: division.value,
-            team: team.value,
-            opponent: opponent.value,
-        });
+        league_id.value = league.value._id;
 
         try {
             const res = await axios.post("http://localhost:8000/api/events", {
@@ -280,6 +272,19 @@
 
         events.value = res.data.events;
     }   
+
+    const deleteEvent = async (id) => {
+    try {
+        const res = await axios.delete(`http://localhost:8000/api/events/${id}`);
+        if (res.status === 200) {
+        events.value = events.value.filter(event => event._id !== id);
+        alert('Event deleted successfully!');
+        }
+    } catch (err) {
+        console.error('Delete failed:', err);
+        alert('Failed to delete event.');
+    }
+    }
 
     const togglePopup = (trigger) => {
         popupTriggers.value[trigger] =!popupTriggers.value[trigger];

@@ -88,76 +88,10 @@ router.get('/filter', async (req, res) => {
     }
 });
 
-
-// router.get('/filter', async (req, res) => {
-//     const { type, startDate, endDate, league, team, opponent } = req.query;
-
-//     try {
-//         let query = {};
-
-//         if (type) {
-//             query.event_type = type;
-//         }
-
-//         if (league) {
-//             // const leagueIds = league.split(',');
-//             // const id = new mongoose.Types.ObjectId(league)
-//             query.league_id = new mongoose.Types.ObjectId(league);
-//             // console.log(query.league_id)
-//         }
-
-//         if (team) {
-//             query.team = team;
-//         }
-
-//         if (opponent) {
-//             query.opponent = opponent;
-//         }
-
-//         if (startDate && endDate) {
-//             const start = new Date(startDate);
-//             const end = new Date(endDate);
-
-//             console.log(start)
-//             console.log(end)
-
-//             console.log(start.toISOString())
-//             console.log(end.toISOString())
-
-
-//             query.date = {$gte: start, $lte: end};
-//             // Get today's date at midnight in UTC
-//             // const today = new Date();
-//             // const startOfToday = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), 0, 0, 0, 0)); // Start of today in UTC
-
-//             // Convert the provided date into a UTC Date object
-//             // const endOfDate = new Date(date + "T23:59:59Z"); // End of the provided date in UTC (23:59:59)
-
-//             // console.log('Start of Today (UTC):', startOfToday);  // Log for debugging
-//             // console.log('End of Provided Date (UTC):', endOfDate);  // Log for debugging
-
-//             // Add the date range filter to the query
-//             // query.date = { $gte: startOfToday, $lte: endOfDate }; // Compare in UTC
-//         }
-
-        
-//         // console.log('Final Query:', JSON.stringify(query, null, 2)); // Log the full query object for debugging
-
-//         // Execute the query in MongoDB
-//         const events = await Event.find(query).exec();
-
-//         res.status(200).json({ events });
-//     } catch (error) {
-//         res.status(500).json({ message: 'Error getting event', error: error.message });
-//     }
-// });
-
 router.put('/:id', async (req, res) => {
     const {id} = req.params;
 
     const event = req.body;
-
-    // const newEvent = new Event(event);
 
     try {
         event.date = new Date(req.body.date);
