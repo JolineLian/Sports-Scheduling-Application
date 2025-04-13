@@ -6,6 +6,7 @@ import eventRoutes from './routes/events.js';
 import cors from 'cors';
 import authRoutes from './routes/auth.js';
 import protectedRoutes from './routes/protected.js';
+import mapRoutes from './routes/maps.js';
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use('/api/teams', teamRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api', authRoutes);
 app.use('/api', protectedRoutes);
+app.use('/api', mapRoutes);
 
 
 app.listen(PORT, () => {

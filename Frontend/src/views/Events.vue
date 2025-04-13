@@ -109,7 +109,11 @@
                             </div>
 
                             <h3>Enter Address</h3>
-                                <input v-model="address" placeholder="Address"/>
+                            <AddressAutocomplete 
+                                v-model="address" 
+                                placeholder="Enter address"
+                                @place-selected="onPlaceSelected"
+                            />
 
                             <h3>Enter League</h3>
                             <select v-model="league">
@@ -156,6 +160,8 @@
     import Table from '../components/EventTable.vue';
     import axios from 'axios';
     import Popup from '../components/Popup.vue'
+    import AddressAutocomplete from '@/components/AddressAutocomplete.vue';
+
 
     const events = ref([]);
     const selectedEvent = ref([]);
@@ -187,6 +193,14 @@
     const division = ref('');
     const team = ref('');
     const opponent = ref('');
+    const latitude = ref(null);
+    const longitude = ref(null);
+
+    const onPlaceSelected = ({ lat, lng, address }) => {
+        address.value = address;
+        latitude.value = lat;
+        longitude.value = lng;
+    };
 
     // const isLoggedIn = ref(localStorage.getItem('isLoggedIn') === 'true');
 
@@ -225,6 +239,8 @@
                 play: play.value,
                 back: back.value,
                 address: address.value,
+                lat: latitude.value,
+                lng: longitude.value,
                 league: league.value.name,
                 league_id: league_id.value,
                 division: division.value,

@@ -37,6 +37,7 @@
               <p>{{ event.back }}</p>
               <p>{{ event.notes }}</p>
               <p>{{ event.address }}</p>
+              <Map v-if="event.lat && event.lng" :lat="Number(event.lat)" :lng="Number(event.lng)" />
             </Popup>
 
             <!-- Edit Button -->
@@ -66,9 +67,15 @@
                   <input v-model="editedEvent.back" placeholder="Back" />
                 </div>
 
-                <div>
-                  <label>Address:</label>
-                  <input v-model="editedEvent.address" placeholder="Address" />
+                <div v-if="editedEvent">
+                  <AddressAutocomplete
+                    v-model="editedEvent.address"
+                    placeholder="Enter address"
+                    @place-selected="({ lat, lng }) => {
+                      editedEvent.lat = lat
+                      editedEvent.lng = lng
+                    }"
+                  />
                 </div>
 
                 <div>
@@ -129,6 +136,8 @@ import { ref } from 'vue'
 import Popup from './Popup.vue'
 import { useAuth } from '@/composables/useAuth.js'
 import axios from 'axios'
+import Map from './Map.vue'
+import AddressAutocomplete from './AddressAutocomplete.vue'
 
 const { isAdmin } = useAuth()
 

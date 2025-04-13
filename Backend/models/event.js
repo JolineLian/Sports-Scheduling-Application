@@ -15,6 +15,12 @@ const eventSchema = new Schema({
         type: String, 
         // Required: true
     },
+    lat: {
+        type: String
+    },
+    lng: {
+        type: String
+    },
     league: {
         type: String, 
         // Required: true
