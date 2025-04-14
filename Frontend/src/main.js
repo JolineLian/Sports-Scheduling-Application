@@ -19,6 +19,7 @@ axios.get('https://sports-scheduling-application.onrender.com/api/google-maps-ke
     app.use(VueGoogleMaps, {
       load: {
         key,
+        v: 'weekly',
         loading: 'async', // ✅ Add this line to fix the warning
         libraries: 'places', // optional but common
       },
