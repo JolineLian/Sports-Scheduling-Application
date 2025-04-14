@@ -3,7 +3,7 @@
       <!-- Add League -->
       <div class="filter-container">
         <div class="filter-row center-row">
-          <button class="button is-primary is-large" @click="togglePopup('add')">+</button>
+          <button class="button has-background-primary-soft has-text-soft is-large" @click="togglePopup('add')">+</button>
   
           <Popup v-if="activePopupId.add" :togglePopup="() => togglePopup('add')" title="Add New League">
             <form @submit.prevent="createLeague">
@@ -66,7 +66,6 @@
                     title="Edit League"
                   >
                     <form @submit.prevent="saveEdit(league)">
-                      <h3>Edit League</h3>
                       <div>
                         <label>Name:</label>
                         <input type="text" v-model="editedLeague.name" placeholder="League name" />
@@ -80,7 +79,7 @@
                           placeholder="Number of divisions"
                         />
                       </div>
-                      <button type="submit">Save Changes</button>
+                      <button class="button has-background-primary-soft has-text-soft" type="submit">Save Changes</button>
                     </form>
                   </Popup>
   
@@ -275,8 +274,8 @@ form button[type="submit"] {
 .filter-container {
   max-width: 1000px;
   margin: 2rem auto;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* border-radius: 12px; */
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */
 }
 
 .filter-row {

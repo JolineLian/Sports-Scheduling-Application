@@ -1,14 +1,63 @@
 <template>
-    <div>
-      <h2>Login</h2>
-      <form @submit.prevent="login">
-        <input v-model="username" placeholder="Username" required />
-        <input v-model="password" type="password" placeholder="Password" required />
-        <button type="submit">Login</button>
-      </form>
-      <button
-      @click="guestLogin">Continue as Guest</button>
-    </div>
+    <section class="section">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-5">
+            <div class="box">
+              <h2 class="title is-4 has-text-centered">Login</h2>
+  
+              <form @submit.prevent="login">
+                <div class="field">
+                  <label class="label">Username</label>
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="text"
+                      v-model="username"
+                      placeholder="Enter your username"
+                      required
+                    />
+                  </div>
+                </div>
+  
+                <div class="field">
+                  <label class="label">Password</label>
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="password"
+                      v-model="password"
+                      placeholder="Enter your password"
+                      required
+                    />
+                  </div>
+                </div>
+  
+                <div class="field">
+                  <div class="control">
+                    <button class="button is-primary is-fullwidth">Login</button>
+                  </div>
+                </div>
+              </form>
+  
+              <hr />
+  
+              <div class="field">
+                <div class="control">
+                  <button class="button is-light is-fullwidth" @click="guestLogin">
+                    Continue as Guest
+                  </button>
+                </div>
+              </div>
+  
+              <p class="has-text-danger has-text-centered" v-if="errorMessage">
+                {{ errorMessage }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </template>
   
   <script setup>
@@ -22,17 +71,19 @@
   
   const username = ref('');
   const password = ref('');
+  const errorMessage = ref('');
   
   const login = async () => {
     try {
       const response = await axios.post('http://localhost:8000/api/login', {
         username: username.value,
-        password: password.value
+        password: password.value,
       });
+  
       setToken(response.data.token);
-      router.push('/dashboard');
+      router.push('/dashboard/events');
     } catch {
-      alert('Invalid login');
+      errorMessage.value = 'Invalid username or password';
     }
   };
   
@@ -46,64 +97,4 @@
     }
   };
   </script>
-  
-<!-- <template>
-    <div>
-      <h1>Login</h1>
-      <form @submit.prevent="loginUser">
-        <div>
-          <label for="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            v-model="username"
-            placeholder="Enter your username"
-            required
-          />
-        </div>
-  
-        <div>
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            v-model="password"
-            placeholder="Enter your password"
-            required
-          />
-        </div>
-  
-        <button type="submit">Login</button>
-      </form>
-      <div v-if="errorMessage">{{ errorMessage }}</div>
-    </div>
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  import axios from 'axios';
-  
-  const username = ref('');
-  const password = ref('');
-  const errorMessage = ref('');
-  const router = useRouter();
-  
-  const loginUser = async () => {
-    try {
-      const response = await axios.post('http://localhost:8000/api/login', {
-        username: username.value,
-        password: password.value
-      });
-  
-      // Save the JWT token to localStorage
-      localStorage.setItem('token', response.data.token);
-  
-      // Redirect to the dashboard
-      router.push('/dashboard');
-    } catch (error) {
-      errorMessage.value = 'Invalid username or password';
-    }
-  };
-  </script> -->
   

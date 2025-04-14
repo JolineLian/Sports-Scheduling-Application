@@ -3,7 +3,7 @@
     <!-- Add Team Button -->
     <div class="filter-container">
       <div class="filter-row center-row">
-        <button class="button is-primary is-large" @click="togglePopup('add')">+</button>
+        <button class="button has-background-primary-soft has-text-soft is-large" @click="togglePopup('add')">+</button>
 
         <!-- Add Team Popup -->
         <Popup v-if="activePopupId.add" :togglePopup="() => togglePopup('add')" title="Add New Team">
@@ -42,7 +42,7 @@
     <div class="section pt-4 pb-4">
       <div class="container">
         <table class="table">
-          <thead>
+          <thead class="is-primary">
             <tr>
               <th>TEAM</th>
               <th>LEAGUE</th>
@@ -67,7 +67,6 @@
                   title="Edit Team"
                 >
                   <form @submit.prevent="saveEdit(team)">
-                    <h3>Edit Team</h3>
 
                     <div>
                       <label>Name:</label>
@@ -93,7 +92,7 @@
                       />
                     </div>
 
-                    <button type="submit">Save Changes</button>
+                    <button class="button has-background-primary-soft has-text-soft" type="submit">Save Changes</button>
                   </form>
                 </Popup>
 
@@ -283,8 +282,8 @@ form button[type="submit"] {
 .filter-container {
   max-width: 1000px;
   margin: 2rem auto;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* border-radius: 12px; */
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */
 }
 
 .filter-row {

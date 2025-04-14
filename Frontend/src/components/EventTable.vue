@@ -32,17 +32,17 @@
             <Popup 
               v-if="activePopupId.details === event._id"
               :togglePopup="() => togglePopup('details', event._id)"
-              title="Details"
+              title="Event Details"
             >
-              <p>{{ event.event_type }}</p>
-              <p>{{ formatDate(event.date) }}</p>
-              <p>{{ event.league }}</p>
-              <p>{{ event.division }}</p>
-              <p>{{ event.team }}</p>
-              <p>{{ event.opponent }}</p>
-              <p>{{ event.play }}</p>
-              <p>{{ event.back }}</p>
-              <p>{{ event.notes }}</p>
+              <p>Type: {{ event.event_type }}</p>
+              <p>Date: {{ formatDate(event.date) }}</p>
+              <p>League: {{ event.league }}</p>
+              <p>Division: {{ event.division }}</p>
+              <p>Team: {{ event.team }}</p>
+              <p>Opponent: {{ event.opponent }}</p>
+              <p>Play: {{ event.play }}</p>
+              <p>Back: {{ event.back }}</p>
+              <p>Notes: {{ event.notes }}</p>
               <p>{{ event.address }}</p>
               <Map v-if="event.lat && event.lng" :lat="Number(event.lat)" :lng="Number(event.lng)" />
             </Popup>
@@ -61,12 +61,10 @@
               v-if="activePopupId.edit === event._id && editedEvent"
               :key="event._id"
               :togglePopup="() => togglePopup('edit', event._id)"
-              title="Edit"
+              title="Edit Event"
             >
               <form @submit.prevent="saveEdit(event)">
-                <h3>Edit Event</h3>
-
-                <label>Enter Type</label>
+                <label>Type: </label>
                 <select v-model="editedEvent.event_type">
                   <option value="" disabled>Select Type</option>
                   <option value="game">Game</option>
@@ -82,7 +80,8 @@
                   <input v-model="editedEvent.back" placeholder="Back" />
                 </div>
 
-                <div v-if="editedEvent">
+                <!-- <div v-if="editedEvent"> -->
+                  Address:
                   <AddressAutocomplete
                     v-model="editedEvent.address"
                     placeholder="Enter address"
@@ -91,10 +90,10 @@
                       editedEvent.lng = lng
                     }"
                   />
-                </div>
+                <!-- </div> -->
 
                 <div>
-                  <label>League:</label>
+                  <label>League: </label>
                   <select v-model="editedEvent.league">
                     <option disabled value="">Select League</option>
                     <option v-for="league in leagues" :key="league._id" :value="league.name">
@@ -104,12 +103,12 @@
                 </div>
 
                 <div>
-                  <label>Division:</label>
+                  <label>Division: </label>
                   <input v-model="editedEvent.division" placeholder="Division" />
                 </div>
 
                 <div>
-                  <label>Team:</label>
+                  <label>Team: </label>
                   <select v-model="editedEvent.team">
                     <option disabled value="">Select Team</option>
                     <option v-for="team in teams" :key="team._id" :value="team.name">
@@ -119,7 +118,7 @@
                 </div>
 
                 <div v-if="editedEvent.event_type !== 'practice'">
-                  <label>Opponent:</label>
+                  <label>Opponent: </label>
                   <select v-model="editedEvent.opponent">
                     <option disabled value="">Select Opponent</option>
                     <option v-for="opp in opps" :key="opp._id" :value="opp.name">
@@ -130,10 +129,12 @@
 
                 <div>
                   <label>Notes:</label>
-                  <textarea v-model="editedEvent.notes" placeholder="Notes"></textarea>
+                  <div>
+                    <textarea v-model="editedEvent.notes" placeholder="Notes"></textarea>
+                  </div>
                 </div>
 
-                <button type="submit">Save Changes</button>
+                <button class="button has-background-primary-soft has-text-soft" type="submit">Save Changes</button>
               </form>
             </Popup>
 

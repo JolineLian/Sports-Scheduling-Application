@@ -141,9 +141,9 @@
     
         <!-- Row 2: Only the + Button -->
         <div class="filter-row center-row">
-          <button class="button is-primary is-large" @click="() => togglePopup('buttonTrigger')">+</button>
+          <button class="button has-background-primary-soft has-text-soft is-large" @click="() => togglePopup('buttonTrigger')">+</button>
           <Popup v-if="popupTriggers.buttonTrigger" 
-                 :togglePopup="() => togglePopup('buttonTrigger')">
+                 :togglePopup="() => togglePopup('buttonTrigger')" title="Add New Event">
                  <form @submit.prevent="submitform">
                     <div>
                       <h3>Enter Type</h3>
@@ -377,7 +377,7 @@
 .filter-container {
   max-width: 1000px;
   margin: 2rem auto;
-  /* padding: 2rem; */
+  padding: 2rem;
   /* background-color: #f8f8f8; */
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
