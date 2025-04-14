@@ -1,5 +1,6 @@
 <template>
-  <div>
+    <div class="section pt-4 pb-4">
+  <div class="container">
     <table class="table">
       <thead>
         <tr>
@@ -9,7 +10,8 @@
           <th>LOCATION</th>
           <th>VS</th>
           <th>NOTES</th>
-          <th>ACTIONS</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -22,13 +24,18 @@
           <td>{{ event.notes }}</td>
           <td>
             <!-- Details Button -->
-            <button @click="togglePopup('details', event._id)">Details</button>
+            <span class="icon" @click="togglePopup('details', event._id)" style="cursor: pointer;">
+              <i class="fa-solid fa-bars"></i>
+            </span>
+
+            <!-- <button @click="togglePopup('details', event._id)">Details</button> -->
             <Popup 
               v-if="activePopupId.details === event._id"
               :togglePopup="() => togglePopup('details', event._id)"
+              title="Details"
             >
               <p>{{ event.event_type }}</p>
-              <p>{{ event.date }}</p>
+              <p>{{ formatDate(event.date) }}</p>
               <p>{{ event.league }}</p>
               <p>{{ event.division }}</p>
               <p>{{ event.team }}</p>
@@ -40,13 +47,21 @@
               <Map v-if="event.lat && event.lng" :lat="Number(event.lat)" :lng="Number(event.lng)" />
             </Popup>
 
+          </td>
+          <td>
+            
             <!-- Edit Button -->
-            <button v-if="isAdmin" @click="() => togglePopup('edit', event._id, event)">Edit</button>
+            <span v-if="isAdmin" class="icon pencil-icon" @click="togglePopup('edit', event._id, event)" style="cursor: pointer;">
+              <i class="fa-solid fa-pen"></i>
+            </span>
+
+            <!-- <button v-if="isAdmin" @click="() => togglePopup('edit', event._id, event)">Edit</button> -->
 
             <Popup 
               v-if="activePopupId.edit === event._id && editedEvent"
               :key="event._id"
               :togglePopup="() => togglePopup('edit', event._id)"
+              title="Edit"
             >
               <form @submit.prevent="saveEdit(event)">
                 <h3>Edit Event</h3>
@@ -123,12 +138,16 @@
             </Popup>
 
             <!-- Delete Button -->
-            <button v-if="isAdmin" @click="() => deleteEvent(event._id)">Delete</button>
+            <span v-if="isAdmin" class="icon delete-icon" @click="() => deleteEvent(event._id)" style="cursor: pointer;">
+              <i class="fa-solid fa-trash"></i>
+            </span>
+            <!-- <button v-if="isAdmin" @click="() => deleteEvent(event._id)">Delete</button> -->
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+</div>
 </template>
 
 <script setup>
@@ -192,3 +211,59 @@ const formatDate = (dateString) => {
   return date.toISOString().split('T')[0]
 }
 </script>
+
+<style scoped>
+.table {
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+th,
+td {
+  vertical-align: middle;
+  text-align: center;
+  padding: 0.75rem 0.5rem;
+}
+
+th:last-child,
+td:last-child {
+  width: 120px;
+}
+
+button {
+  margin: 2px;
+}
+
+form input {
+  width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+form button[type="submit"] {
+  margin-top: 1rem;
+}
+
+/* Default color for the pencil icon */
+.pencil-icon i {
+  color: #FF8C00; /* Default Orange */
+  transition: color 0.3s ease; /* Smooth transition on hover */
+}
+
+/* Hover effect for the pencil icon */
+.pencil-icon:hover i {
+  color: #FF4500; /* Darker orange on hover */
+}
+
+.delete-icon i {
+  color: #D9534F; /* Default Orange */
+  transition: color 0.3s ease; /* Smooth transition on hover */
+}
+
+/* Hover effect for the pencil icon */
+.delete-icon:hover i {
+  color: #C9302C; /* Darker orange on hover */
+}
+
+</style>

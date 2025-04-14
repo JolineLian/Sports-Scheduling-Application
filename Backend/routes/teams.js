@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/', async(req, res) => {
     const team = req.body;
 
-    if(!team.name || !team.league || !team.division) {
+    if(!team.name || !team.league_id || !team.division) {
         return res.status(400).json({ message: 'Please enter the necessary information to create team'});
     }
 
@@ -15,7 +15,7 @@ router.post('/', async(req, res) => {
 
     try {
         await newTeam.save();
-        res.status(201).json({ message: 'Team created', data: newTeam});
+        res.status(201).json({newTeam});
     } catch (error) {
         res.status(500).json({ message: 'Error creating team', error: error.message})
     }

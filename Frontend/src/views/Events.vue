@@ -1,159 +1,212 @@
 <template>
     <div class="Search">
-        <div>
-            <div class="filter-bar">
-                <div class="filter-item">
-                    <button class="button is-primary" @click="showEvent = !showEvent">EVENT</button>
-                    <div v-if="showEvent" class="dropdown-content">
-                        <div v-for="(type, index) in eventType" :key="index" class="checkbox-item">
-                            <input 
-                                type="checkbox" 
-                                :value="type"
-                                v-model="selectedEvent"
-                                @change="eventFilterReq"
-                            />
-                            <label>{{ type }}</label>
-                        </div>
-                    </div>
+      <div class="filter-container">
+    
+        <!-- Row 1: Filters -->
+        <div class="filter-row">
+          <!-- EVENT -->
+          <div class="filter-item">
+            <div class="dropdown" :class="{'is-active': showEvent}">
+              <div class="dropdown-trigger">
+                <button class="button" @click="showEvent = !showEvent" aria-haspopup="true" aria-controls="dropdown-menu-event">
+                  <span>EVENT</span>
+                  <span class="icon is-small">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu-event" role="menu">
+                <div class="dropdown-content">
+                  <div v-for="(type, index) in eventType" :key="index" class="dropdown-item">
+                    <input 
+                      type="checkbox" 
+                      :value="type"
+                      v-model="selectedEvent"
+                      @change="eventFilterReq"
+                    />
+                    <label>{{ type }}</label>
+                  </div>
                 </div>
-                            <!-- DATE -->
-                <div class="filter-item">
-                    <button class="button is-primary" @click="showDate = !showDate">DATE</button>
-                    <div v-if="showDate" class="dropdown-content">
-                        <div class="date-item">
-                            <label for="start-date">Start:</label>
-                            <input
-                                type="date"
-                                id="start-date"
-                                v-model="startDate"
-                                @change="eventFilterReq"
-                            />
-                        </div>
-                        <div class="date-item">
-                            <label for="end-date">End:</label>
-                            <input
-                                type="date"
-                                id="end-date"
-                                v-model="endDate"
-                                @change="eventFilterReq"
-                            />
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- LEAGUE -->
-                <div class="filter-item">
-                    <button class="button is-primary" @click="showLeague = !showLeague">LEAGUE</button>
-                    <div v-if="showLeague" class="dropdown-content">
-                        <div v-for="(league, index) in leagues" :key="index" class="checkbox-item">
-                            <input 
-                            type="checkbox" 
-                            :value="league._id"
-                            v-model="selectedLeague"
-                            @change="eventFilterReq"
-                            />
-                            <label>{{ league.name }}</label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TEAM -->
-                <div class="filter-item">
-                    <button class="button is-primary" @click="showTeams = !showTeams">TEAM</button>
-                    <div v-if="showTeams" class="dropdown-content">
-                        <div v-for="(team, index) in teams" :key="index" class="checkbox-item">
-                            <input 
-                            type="checkbox" 
-                            :value="team.name"
-                            v-model="selectedTeams"
-                            @change="eventFilterReq"
-                            />
-                            <label>{{ team.name }}</label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- VS -->
-                <div class="filter-item">
-                    <button class="button is-primary" @click="showOpps = !showOpps">VS</button>
-                    <div v-if="showOpps" class="dropdown-content">
-                        <div v-for="(opp, index) in opps" :key="index" class="checkbox-item">
-                            <input 
-                            type="checkbox" 
-                            :value="opp.name"
-                            v-model="selectedOpps"
-                            @change="eventFilterReq"
-                            />
-                            <label>{{ opp.name }}</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <button class="button is-primary" @click="() => togglePopup('buttonTrigger')">+</button>
-                    <Popup v-if="popupTriggers.buttonTrigger" 
-                    :togglePopup="() => togglePopup('buttonTrigger')">
-                        <form @submit.prevent="submitform">
-                            <div>
-                            <h3>Enter Type</h3>
-                            <select v-model="event_type">
-                                <option value="" disabled>Select Type</option>
-                                <option v-for="(type, index) in eventType" :key="index" :value="type">{{ type }}</option>
-                            </select>
-
-                            <h3>Enter Date</h3>
-                            <div class="date-item">
-                                <input type="date" v-model="date" />
-                                <input v-model="play" placeholder="Play"/>
-                                <input v-model="back" placeholder="Back"/>
-                            </div>
-
-                            <h3>Enter Address</h3>
-                            <AddressAutocomplete 
-                                v-model="address" 
-                                placeholder="Enter address"
-                                @place-selected="onPlaceSelected"
-                            />
-
-                            <h3>Enter League</h3>
-                            <select v-model="league">
-                                <option value="" disabled>Select League</option>
-                                <option v-for="(league, index) in leagues" :key="index" :value="league">{{ league.name }}</option>
-                            </select>
-
-                            <h3>Enter Division</h3>
-                            <input v-model="division" placeholder="Eg. Division 1"/>
-
-                            <h3>Enter Team</h3>
-                            <select v-model="team">
-                                <option value="" disabled>Select Team</option>
-                                <option v-for="(team, index) in teams" :key="index" :value="team.name">{{ team.name }}</option>
-                            </select>
-
-                            <h3 v-if="event_type !== 'practice'">Enter Opponent</h3>
-                            <select v-if="event_type !== 'practice'" v-model="opponent">
-                                <option value="" disabled>Select Opponent</option>
-                                <option v-for="(opp, index) in opps" :key="index" :value="opp.name">{{ opp.name }}</option>
-                            </select>
-                            </div>
-
-                            <button type="submit">Create Event</button>
-                        </form>
-                    </Popup>
-                </div>
+              </div>
             </div>
+          </div>
+    
+          <!-- DATE -->
+          <div class="filter-item">
+            <div class="dropdown" :class="{'is-active': showDate}">
+              <div class="dropdown-trigger">
+                <button class="button" @click="showDate = !showDate" aria-haspopup="true" aria-controls="dropdown-menu-date">
+                  <span>DATE</span>
+                  <span class="icon is-small">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu-date" role="menu">
+                <div class="dropdown-content">
+                  <div class="dropdown-item">
+                    <label for="start-date">Start:</label>
+                    <input type="date" id="start-date" v-model="startDate" @change="eventFilterReq" />
+                  </div>
+                  <div class="dropdown-item">
+                    <label for="end-date">End:</label>
+                    <input type="date" id="end-date" v-model="endDate" @change="eventFilterReq" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <!-- LEAGUE -->
+          <div class="filter-item">
+            <div class="dropdown" :class="{'is-active': showLeague}">
+              <div class="dropdown-trigger">
+                <button class="button" @click="showLeague = !showLeague" aria-haspopup="true" aria-controls="dropdown-menu-league">
+                  <span>LEAGUE</span>
+                  <span class="icon is-small">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu-league" role="menu">
+                <div class="dropdown-content">
+                  <div v-for="(league, index) in leagues" :key="index" class="dropdown-item">
+                    <input 
+                      type="checkbox" 
+                      :value="league._id"
+                      v-model="selectedLeague"
+                      @change="eventFilterReq"
+                    />
+                    <label>{{ league.name }}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <!-- TEAM -->
+          <div class="filter-item">
+            <div class="dropdown" :class="{'is-active': showTeams}">
+              <div class="dropdown-trigger">
+                <button class="button" @click="showTeams = !showTeams" aria-haspopup="true" aria-controls="dropdown-menu-team">
+                  <span>TEAM</span>
+                  <span class="icon is-small">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu-team" role="menu">
+                <div class="dropdown-content">
+                  <div v-for="(team, index) in teams" :key="index" class="dropdown-item">
+                    <input 
+                      type="checkbox" 
+                      :value="team.name"
+                      v-model="selectedTeams"
+                      @change="eventFilterReq"
+                    />
+                    <label>{{ team.name }}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <!-- VS -->
+          <div class="filter-item">
+            <div class="dropdown" :class="{'is-active': showOpps}">
+              <div class="dropdown-trigger">
+                <button class="button" @click="showOpps = !showOpps" aria-haspopup="true" aria-controls="dropdown-menu-vs">
+                  <span>VS</span>
+                  <span class="icon is-small">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu-vs" role="menu">
+                <div class="dropdown-content">
+                  <div v-for="(opp, index) in opps" :key="index" class="dropdown-item">
+                    <input 
+                      type="checkbox" 
+                      :value="opp.name"
+                      v-model="selectedOpps"
+                      @change="eventFilterReq"
+                    />
+                    <label>{{ opp.name }}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+    
+        <!-- Row 2: Only the + Button -->
+        <div class="filter-row center-row">
+          <button class="button is-primary is-large" @click="() => togglePopup('buttonTrigger')">+</button>
+          <Popup v-if="popupTriggers.buttonTrigger" 
+                 :togglePopup="() => togglePopup('buttonTrigger')">
+                 <form @submit.prevent="submitform">
+                    <div>
+                      <h3>Enter Type</h3>
+                      <select v-model="event_type">
+                          <option value="" disabled>Select Type</option>
+                          <option v-for="(type, index) in eventType" :key="index" :value="type">{{ type }}</option>
+                      </select>
+  
+                      <h3>Enter Date</h3>
+                      <div class="date-item">
+                          <input type="date" v-model="date" />
+                          <input v-model="play" placeholder="Play"/>
+                          <input v-model="back" placeholder="Back"/>
+                      </div>
+  
+                      <h3>Enter Address</h3>
+                      <AddressAutocomplete 
+                          v-model="address" 
+                          placeholder="Enter address"
+                          @place-selected="onPlaceSelected"
+                      />
+  
+                      <h3>Enter League</h3>
+                      <select v-model="league">
+                          <option value="" disabled>Select League</option>
+                          <option v-for="(league, index) in leagues" :key="index" :value="league">{{ league.name }}</option>
+                      </select>
+  
+                      <h3>Enter Division</h3>
+                      <input v-model="division" placeholder="Eg. Division 1"/>
+  
+                      <h3>Enter Team</h3>
+                      <select v-model="team">
+                          <option value="" disabled>Select Team</option>
+                          <option v-for="(team, index) in teams" :key="index" :value="team.name">{{ team.name }}</option>
+                      </select>
+  
+                      <h3 v-if="event_type !== 'practice'">Enter Opponent</h3>
+                      <select v-if="event_type !== 'practice'" v-model="opponent">
+                          <option value="" disabled>Select Opponent</option>
+                          <option v-for="(opp, index) in opps" :key="index" :value="opp.name">{{ opp.name }}</option>
+                      </select>
+                    </div>
+  
+                    <button type="submit">Create Event</button>
+                </form>
+          </Popup>
+        </div>
+    
+      </div>
     </div>
-
+    
+    <!-- Events Table -->
     <div>
-        <Table  
+      <Table  
         :events="events" 
         :leagues="leagues"
         :teams="teams"
         :opps="opps"
-        :deleteEvent="deleteEvent"/>
+        :deleteEvent="deleteEvent"
+      />
     </div>
-</template>
+  </template>
 
 <script setup>
     import { ref , onMounted } from 'vue';
@@ -321,14 +374,25 @@
 </script>
 
 <style scoped>
-    li {
-        list-style-type: none;
-    }
-    .filter-bar {
+.filter-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  /* padding: 2rem; */
+  /* background-color: #f8f8f8; */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.filter-row {
   display: flex;
   gap: 1rem;
-  align-items: flex-start;
+  margin-bottom: 1.5rem;
   flex-wrap: wrap;
+  justify-content: center;
+}
+
+.center-row {
+  justify-content: center;
 }
 
 .filter-item {
@@ -339,17 +403,15 @@
 }
 
 .filter-item .button {
-  width: auto;
   white-space: nowrap;
 }
 
-/* Checkbox container below each button */
 .dropdown-content {
   margin-top: 0.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  background-color: white;
+  /* background-color: white; */
   border: 1px solid #dbdbdb;
   padding: 0.5rem;
   border-radius: 4px;
@@ -363,4 +425,9 @@
   gap: 0.5rem;
 }
 
+.date-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 </style>

@@ -5,8 +5,8 @@ const teamSchema = new mongoose.Schema({
         type: String,
         // required: true
     },
-    league: {
-        type: String,
+    league_id: {
+        type: mongoose.Schema.Types.ObjectId,
         // required: true
     },
     division: {
