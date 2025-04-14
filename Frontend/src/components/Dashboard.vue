@@ -23,7 +23,7 @@
   onMounted(async () => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.get('/api/dashboard-data', {
+      const response = await axios.get('https://sports-scheduling-application.onrender.com/api/dashboard-data', {
         headers: { Authorization: `Bearer ${token}` }
       });
       secureMessage.value = response.data.message;
