@@ -7,9 +7,9 @@
           <th>TEAM</th>
           <th>DATE</th>
           <th>EVENT</th>
-          <th>LOCATION</th>
+          <th class="is-hidden-mobile">LOCATION</th>
           <th>VS</th>
-          <th>NOTES</th>
+          <th class="is-hidden-mobile">NOTES</th>
           <th></th>
           <th></th>
         </tr>
@@ -19,9 +19,9 @@
           <td>{{ event.team }}</td>
           <td>{{ formatDate(event.date) }}</td>
           <td>{{ event.event_type }}</td>
-          <td>{{ event.address || 'NONE' }}</td>
+          <td class="is-hidden-mobile">{{ event.address || 'NONE' }}</td>
           <td>{{ event.opponent }}</td>
-          <td>{{ event.notes }}</td>
+          <td class="is-hidden-mobile">{{ event.notes }}</td>
           <td>
             <!-- Details Button -->
             <span class="icon" @click="togglePopup('details', event._id)" style="cursor: pointer;">
