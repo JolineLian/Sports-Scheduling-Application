@@ -194,7 +194,7 @@ const saveEdit = async (originalEvent) => {
   try {
     const updatedEvent = { ...editedEvent.value }
 
-    const res = await axios.put(`https://sports-scheduling-application-1.onrender.com/api/events/${originalEvent._id}`, updatedEvent)
+    const res = await axios.put(`https://sports-scheduling-application.onrender.com/api/events/${originalEvent._id}`, updatedEvent)
 
     if (res.status === 200) {
       Object.assign(originalEvent, updatedEvent)
