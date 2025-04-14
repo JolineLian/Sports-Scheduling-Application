@@ -179,7 +179,7 @@ const createTeam = async () => {
   }
 
   try {
-    const res = await axios.post('http://localhost:8000/api/teams', payload)
+    const res = await axios.post('https://sports-scheduling-application-1.onrender.com/api/teams', payload)
     if (res.status === 201) {
       props.teams.push(res.data.newTeam)
       alert('Team created successfully!')
@@ -216,7 +216,7 @@ const saveEdit = async (originalTeam) => {
   }
 
   try {
-    const res = await axios.put(`http://localhost:8000/api/teams/${originalTeam._id}`, updatedTeam)
+    const res = await axios.put(`https://sports-scheduling-application-1.onrender.com/api/teams/${originalTeam._id}`, updatedTeam)
     if (res.status === 200) {
       Object.assign(originalTeam, updatedTeam)
       alert('Team updated successfully!')

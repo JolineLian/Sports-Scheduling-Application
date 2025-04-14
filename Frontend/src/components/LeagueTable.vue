@@ -168,7 +168,7 @@ const saveEdit = async (originalLeague) => {
 
 
         const res = await axios.put(
-        `http://localhost:8000/api/leagues/${originalLeague._id}`,
+        `https://sports-scheduling-application-1.onrender.com/api/leagues/${originalLeague._id}`,
         updatedLeague
         )
 
@@ -205,7 +205,7 @@ const createLeague = async () => {
         division: newLeague.value.division,
         }
 
-        const res = await axios.post('http://localhost:8000/api/leagues', newEntry)
+        const res = await axios.post('https://sports-scheduling-application-1.onrender.com/api/leagues', newEntry)
 
         if (res.status === 201) {
         props.leagues.push(res.data.newLeague)

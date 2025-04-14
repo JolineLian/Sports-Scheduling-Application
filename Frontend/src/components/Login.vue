@@ -75,7 +75,7 @@
   
   const login = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/api/login', {
+      const response = await axios.post('https://sports-scheduling-application-1.onrender.com/api/login', {
         username: username.value,
         password: password.value,
       });
@@ -89,7 +89,7 @@
   
   const guestLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/api/guest-login');
+      const response = await axios.post('https://sports-scheduling-application-1.onrender.com/api/guest-login');
       setToken(response.data.token);
       router.push('/dashboard/events');
     } catch (error) {

@@ -14,7 +14,7 @@
 
     const deleteLeague = async (id) => {
     try {
-        const res = await axios.delete(`http://localhost:8000/api/leagues/${id}`);
+        const res = await axios.delete(`https://sports-scheduling-application-1.onrender.com/api/leagues/${id}`);
         if (res.status === 200) {
         leagues.value = leagues.value.filter(league => league._id !== id); // fixed here
         alert('League deleted successfully!');
@@ -27,7 +27,7 @@
 
 
     onMounted( async () => {
-        const leagueData = await axios.get('http://localhost:8000/api/leagues');
+        const leagueData = await axios.get('https://sports-scheduling-application-1.onrender.com/api/leagues');
        
         leagues.value = leagueData.data.leagues;
     })

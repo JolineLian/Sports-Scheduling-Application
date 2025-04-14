@@ -11,7 +11,7 @@ const app = createApp(App)
 app.use(router)
 // app.mount('#app')
 
-axios.get('http://localhost:8000/api/google-maps-key')
+axios.get('https://sports-scheduling-application-1.onrender.com/api/google-maps-key')
   .then(res => {
     const key = res.data.key
     if (!key) throw new Error('API key missing from response')

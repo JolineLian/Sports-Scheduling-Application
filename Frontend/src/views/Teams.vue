@@ -12,7 +12,7 @@
 
     const deleteTeam = async (teamId) => {
         try {
-            const res = await axios.delete(`http://localhost:8000/api/teams/${teamId}`);
+            const res = await axios.delete(`https://sports-scheduling-application-1.onrender.com/api/teams/${teamId}`);
 
             if (res.status === 200) {
             const index = teams.value.findIndex((team) => team._id === teamId);
@@ -29,8 +29,8 @@
 
 
     onMounted( async () => {
-        const teamsData = await axios.get('http://localhost:8000/api/teams');
-        const leaguesData = await axios.get('http://localhost:8000/api/leagues');
+        const teamsData = await axios.get('https://sports-scheduling-application-1.onrender.com/api/teams');
+        const leaguesData = await axios.get('https://sports-scheduling-application-1.onrender.com/api/leagues');
 
         teams.value = teamsData.data.teams;
         leagues.value = leaguesData.data.leagues;
