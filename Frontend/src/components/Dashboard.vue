@@ -1,6 +1,6 @@
 <template>
     <div>
-      <p v-if="userId">User ID: {{ userId }}</p>
+      <!-- <p v-if="userId">User ID: {{ userId }}</p> -->
       <!-- <button @click="logout">Logout</button> -->
       <router-view />
     </div>
