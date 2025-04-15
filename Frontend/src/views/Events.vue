@@ -8,7 +8,7 @@
           <div class="filter-item">
             <div class="dropdown" :class="{'is-active': showEvent}">
               <div class="dropdown-trigger">
-                <button v-if="isAdmin" class="button" @click="showEvent = !showEvent" aria-haspopup="true" aria-controls="dropdown-menu-event">
+                <button class="button" @click="showEvent = !showEvent" aria-haspopup="true" aria-controls="dropdown-menu-event">
                   <span>EVENT</span>
                   <span class="icon is-small">
                     <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -141,7 +141,7 @@
     
         <!-- Row 2: Only the + Button -->
         <div class="filter-row center-row">
-          <button class="button has-background-primary-soft has-text-soft is-large" @click="() => togglePopup('buttonTrigger')">+</button>
+          <button v-if="isAdmin" class="button has-background-primary-soft has-text-soft is-large" @click="() => togglePopup('buttonTrigger')">+</button>
           <Popup v-if="popupTriggers.buttonTrigger" 
                  :togglePopup="() => togglePopup('buttonTrigger')" title="Add New Event">
                  <form @submit.prevent="submitform">
