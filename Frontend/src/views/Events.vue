@@ -8,7 +8,7 @@
           <div class="filter-item">
             <div class="dropdown" :class="{'is-active': showEvent}">
               <div class="dropdown-trigger">
-                <button class="button" @click="showEvent = !showEvent" aria-haspopup="true" aria-controls="dropdown-menu-event">
+                <button v-if="isAdmin" class="button" @click="showEvent = !showEvent" aria-haspopup="true" aria-controls="dropdown-menu-event">
                   <span>EVENT</span>
                   <span class="icon is-small">
                     <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -214,6 +214,10 @@
     import axios from 'axios';
     import Popup from '../components/Popup.vue'
     import AddressAutocomplete from '@/components/AddressAutocomplete.vue';
+    import { useAuth } from '@/composables/useAuth.js';
+
+
+    const { isAdmin } = useAuth();
 
 
     const events = ref([]);
